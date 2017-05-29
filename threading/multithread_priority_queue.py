@@ -1,12 +1,13 @@
-#!/Users/connormccann/anaconda/bin/python3.5
+#!/usr/bin/python3.5
 """
-Program : Synchronized Threads
-Author  : Connor McCann
-Date    : 26 May 2017
-Source  : https://www.tutorialspoint.com/python/python_multithreading.htm
+	Program : Synchronized Threads
+	Author  : Connor McCann
+	Date    : 26 May 2017
+	Source  : https://www.tutorialspoint.com/python/python_multithreading.htm
 """
-import queue
+import myThread 
 import threading
+import queue
 import time
 
 
@@ -14,17 +15,6 @@ import time
 exitFlag = 0
 queueLock = threading.Lock()
 workQueue = queue.Queue(10)
-
-class myThread (threading.Thread):
-	def __init__(self, threadID, name, q):
-		threading.Thread.__init__(self)
-		self.threadID = threadID
-		self.name = name
-		self.q = q
-	def run(self):
-		print("Starting " + self.name)
-		process_data(self.name, self.q)
-		print("Exiting " + self.name)
 
 def process_data(threadName, q):
 	while not exitFlag:
@@ -45,7 +35,7 @@ def main():
 
 	# Create new threads
 	for tName in threadList:
-		thread = myThread(threadID, tName, workQueue)
+		thread = myThread.myThread(threadID, tName, workQueue, process_data)
 		thread.start()
 		threads.append(thread)
 		threadID += 1
