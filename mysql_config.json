@@ -1,0 +1,7 @@
+{
+    "host":"cloud9.myftp.biz",
+    "port":3306,
+    "user":"owncloud",
+    "pwd":"@BuEcE2017",
+    "db":"Web_Scraping"
+}
