@@ -17,7 +17,7 @@ exitFlag = 0
 blocking = 1
 queueLock = threading.Lock()
 primeQueueLock = threading.Lock()
-workQueue = queue.Queue(50)
+workQueue = queue.Queue(1000)
 primeNumberResults = []
 
 def find_primes(threadName, q):
@@ -26,11 +26,10 @@ def find_primes(threadName, q):
 		if not workQueue.empty():
 			num = q.get()
 			queueLock.release()
-			print("%s processing %s" % (threadName, str(num)))
+			#print("%s processing %s" % (threadName, str(num)))
 			is_prime(num)
 		else:
 			queueLock.release()
-		time.sleep(1) # 1 second pause
 
 def is_prime(num):
 	prime = True
@@ -51,7 +50,7 @@ def main():
 	threadID = 1
 
 	# Create new threads
-	for i in range(5):
+	for i in range(2):
 		tName = "".join(("Thread-",str(i)))
 		thread = myThread.myThread(threadID, tName, workQueue, find_primes)
 		thread.start()
@@ -60,7 +59,7 @@ def main():
 
 	# Fill the queue
 	queueLock.acquire()
-	for j in range(1,10):
+	for j in range(1,1000):
 		workQueue.put(j)
 	queueLock.release()
 

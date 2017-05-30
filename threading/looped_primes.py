@@ -17,7 +17,7 @@ def is_prime(num):
 		primeNumberResults.append(num)
 
 def main():
-	for i in range (1,10):#1000000
+	for i in range (1,1000):#1000000
 		is_prime(i)
 
 	primeNumberResults.sort()
