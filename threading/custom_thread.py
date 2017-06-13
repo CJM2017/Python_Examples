@@ -1,4 +1,4 @@
-#!/Users/connormccann/anaconda/bin/python3.5
+#!/usr/bin/python3.5
 """
 	Program : Custom Working Threads
 	Author  : Connor McCann
@@ -17,7 +17,7 @@ exitFlag = 0
 blocking = 1
 queueLock = threading.Lock()
 primeQueueLock = threading.Lock()
-workQueue = queue.Queue(10000)
+workQueue = queue.Queue(1000000)
 primeNumberResults = []
 
 def find_primes(threadName, q):
@@ -59,7 +59,7 @@ def main():
 
 	# Fill the queue
 	queueLock.acquire()
-	for j in range(100000,110000):
+	for j in range(10000000,11000000):
 		workQueue.put(j)
 	queueLock.release()
 

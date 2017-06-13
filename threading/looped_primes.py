@@ -1,4 +1,4 @@
-#!/Users/connormccann/anaconda/bin/python3.5
+#!/usr/bin/python3.5
 import math
 
 
@@ -17,7 +17,7 @@ def is_prime(num):
 		primeNumberResults.append(num)
 
 def main():
-	for i in range (100000,110000):
+	for i in range (10000000,11000000):
 		is_prime(i)
 
 	primeNumberResults.sort()
