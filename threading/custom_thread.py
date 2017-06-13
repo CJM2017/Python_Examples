@@ -9,41 +9,58 @@ import myThread
 import threading
 import queue
 import time
+import math
 
 
 # globals
 exitFlag = 0
+blocking = 1
 queueLock = threading.Lock()
-workQueue = queue.Queue(10)
+primeQueueLock = threading.Lock()
+workQueue = queue.Queue(1000000)
+primeNumberResults = []
 
-def process_data(threadName, q):
+def find_primes(threadName, q):
 	while not exitFlag:
-		queueLock.acquire()
+		queueLock.acquire(blocking)
 		if not workQueue.empty():
-			data = q.get()
+			num = q.get()
 			queueLock.release()
-			print("%s processing %s" % (threadName, data))
+			#print("%s processing %s" % (threadName, str(num)))
+			is_prime(num)
 		else:
 			queueLock.release()
-		time.sleep(1) # 1 second pause
+
+def is_prime(num):
+	prime = True
+	maxCheck = math.ceil(math.sqrt(num))+1
+	for i in range(2,maxCheck):
+		remainder = num % i
+		if not remainder:
+			prime = False
+			break
+	if (prime):
+		primeQueueLock.acquire(blocking)
+		primeNumberResults.append(num)
+		primeQueueLock.release()
+
 
 def main():
-	nameList = ["One", "Two", "Three", "Four", "Five","siz","seven","eight","nine","ten"]
 	threads = []
 	threadID = 1
 
 	# Create new threads
-	for i in range(50):
+	for i in range(2):
 		tName = "".join(("Thread-",str(i)))
-		thread = myThread.myThread(threadID, tName, workQueue, process_data)
+		thread = myThread.myThread(threadID, tName, workQueue, find_primes)
 		thread.start()
 		threads.append(thread)
 		threadID += 1
 
 	# Fill the queue
 	queueLock.acquire()
-	for word in nameList:
-		workQueue.put(word)
+	for j in range(10000000,11000000):
+		workQueue.put(j)
 	queueLock.release()
 
 	# Wait for queue to empty
@@ -57,6 +74,10 @@ def main():
 	# Wait for all threads to complete
 	for t in threads:
 		t.join()
+
+	# Present the prime numbers found in non-decreasing order
+	primeNumberResults.sort()
+	print(primeNumberResults)
 	print("Exiting Main Thread")
 
 if __name__ == "__main__":

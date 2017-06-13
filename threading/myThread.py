@@ -17,6 +17,6 @@ class myThread (threading.Thread):
 		self.function = func
 
 	def run(self):
-		print("Starting " + self.name)
+		#print("Starting " + self.name)
 		self.function(self.name, self.q)
-		print("Exiting " + self.name)
+		#print("Exiting " + self.name)
