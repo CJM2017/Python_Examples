@@ -9,24 +9,24 @@
 #			: pip install flask
 #
 import sys
-import os
 import json
+import socket
 from twilio.rest import Client
 from twilio.twiml.messaging_response import MessagingResponse
 from flask import Flask, request, redirect
 
 
-contacts = {'char':'16313745510'}
-okToSend = False
-
-def buildString(words):
-	message = ''
-	for word in words:
-		message += word
-		message += " "
-	return message
-
 def main():
+	# Client connections
+	s = socket.socket()
+	host = socket.gethostname()
+	port = 3000
+
+	# People to talk to
+	contacts = {'char':'16313745510',
+				'connor':'15083675434'}
+	okToSend = True
+
 	# Twilio connection 
 	configFilePath = "../../twilio_account/config.json"
 	with open(configFilePath) as jsonFile:
@@ -36,21 +36,16 @@ def main():
 	# Message details
 	recipient = sys.argv[1]
 	number = contacts[recipient]
-	msgString = ''
-	words = sys.argv[2:]
-	numWords = len(words)
 
-	# Build the string
-	if (numWords >= 1):
-		msgString = buildString(words)
-		print(number)
-		print(msgString)
-
-	if (okToSend):
-		message = client.api.account.messages.create(to=number,
-												 from_="16179967175", # Somerville Area Code
-												 body=msgString)
-
+	s.connect((host,port)) # blocking
+	while (True):
+		print(s.recv(1024)) # blocking
+		msgString = raw_input('[Connor]: ') # blocking
+		if (okToSend):
+			message = client.api.account.messages.create(to=number,
+													 from_="16179967175", # Somerville Area Code
+													 body=msgString)
+	s.close()
 	return
 
 if __name__ == "__main__":
