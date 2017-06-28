@@ -1,5 +1,13 @@
 #!/usr/bin/python
-
+# 
+# Author	: Connor McCann	
+# Product	: SMS Chat
+# Date		: 13 Jun 2017
+#
+# Installs
+#			: pip install twilio
+#			: pip install flask
+#
 import socket
 import logging
 from flask import Flask, request
