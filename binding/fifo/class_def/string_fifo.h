@@ -10,11 +10,11 @@
 #include <vector>
 
 class fifo_t {
-    public:
+    private:
         std::vector<std::string> messages;
-        unsigned wptr;
-        unsigned rptr;
-        unsigned capacity = 10;
+        int wptr;
+        int rptr;
+        int capacity = 10;
 
     public:
         void init_fifo(void); 
@@ -23,6 +23,7 @@ class fifo_t {
         unsigned fifo_size(void); 
 };
 
+// C interface
 extern "C" {
     fifo_t* new_fifo(void); 
     void put(fifo_t* F, std::string msg);

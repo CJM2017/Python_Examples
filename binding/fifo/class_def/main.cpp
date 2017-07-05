@@ -8,6 +8,7 @@ int main() {
 
     myFifo.init_fifo();
     myFifo.put_fifo("hello");
-    cout << myFifo.get_fifo() << endl;
+    string rez(myFifo.get_fifo());
+    //cout << rez << endl;
     return 0;
 }

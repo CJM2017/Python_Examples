@@ -5,13 +5,20 @@
 // Source   : https://stackoverflow.com/questions/145270/calling-c-c-from-python
 //
 #include <iostream>
+#include <vector>
 
 
 class Foo {
+    private:
+        int num = 10;
+
     public:
         void bar(void) {
             std::cout << "Hello World!" << std::endl;
-        }    
+        }  
+        int disp_num(void) {
+            return this->num;
+        }  
 };
 
 extern "C" {
@@ -21,5 +28,12 @@ extern "C" {
 
     void Foo_bar(Foo* foo) {
         foo->bar();
+    }
+
+    int Foo_num(Foo* foo) {
+        std::cout << "fuck you" << std::endl;
+        int my_data = foo->disp_num();
+        std::cout << "here" << std::endl;
+        return my_data;
     }
 }

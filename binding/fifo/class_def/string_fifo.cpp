@@ -17,7 +17,7 @@ void fifo_t::init_fifo(void) {
 }
 
 void fifo_t::put_fifo(std::string msg) {
-    std::cout << "here: " << wptr << std::endl;
+    std::cout << this->wptr << std::endl;
 
     if (((this->wptr + 1) % this->capacity) != this->rptr) {
         // Add the message
@@ -51,6 +51,7 @@ unsigned fifo_t::fifo_size(void) {
     }
 }
 
+// C interface
 extern "C" {
     fifo_t* new_fifo(void) {
         fifo_t* F = new fifo_t();;
